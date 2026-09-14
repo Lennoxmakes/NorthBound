@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northbound - Coffee, made well</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3f1eb;
+  --paper-2:#eae7de;
+  --ink:#232019;
+  --ink-soft:#5c574c;
+  --ink-faint:#8b8578;
+  --line:rgba(35,32,25,0.12);
+  --moss:#3f5738;
+  --moss-deep:#2c3e28;
+  --moss-tint:rgba(63,87,56,0.08);
+  --white:#fdfcf9;
+  --dur:.7s;
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:450;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+@media(max-width:640px){.wrap{padding:0 24px}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+[data-reveal].in{opacity:1;transform:translateY(0)}
+[data-stagger]>*{transition-delay:calc(var(--i,0)*80ms)}
+
+header{
+  position:fixed;top:0;left:0;right:0;z-index:70;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 40px;
+  transition:padding .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+header.scrolled{background:rgba(243,241,235,.92);backdrop-filter:blur(8px);padding-top:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+@media(max-width:640px){header{padding:22px 24px}}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:9px;height:9px;border-radius:50%;background:var(--moss)}
+.brand-name{font-family:'Fraunces',serif;font-size:1.28rem;font-style:italic}
+nav.links{display:none;gap:34px;font-size:.94rem;color:var(--ink-soft)}
+@media(min-width:820px){nav.links{display:flex}}
+nav.links a{position:relative;padding-bottom:3px;transition:color .3s}
+nav.links a:hover{color:var(--ink)}
+nav.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--moss);transition:width .35s var(--ease)}
+nav.links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:12px 24px;
+  font-size:.9rem;font-weight:500;font-family:'Inter',sans-serif;
+  border:1px solid var(--ink);color:var(--white);background:var(--ink);
+  transition:transform .4s var(--ease),background .4s,color .4s,border-color .4s;cursor:pointer
+}
+.btn:hover{background:var(--moss);border-color:var(--moss);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{background:transparent;border-color:var(--ink);color:var(--ink);transform:translateY(-2px)}
+.nav-cta{display:none}
+@media(min-width:820px){.nav-cta{display:inline-flex}}
+.burger{display:flex;width:22px;height:18px;flex-direction:column;justify-content:space-between;cursor:pointer}
+.burger span{display:block;width:100%;height:1px;background:var(--ink);transform-origin:center;transition:transform .35s var(--ease),opacity .25s ease}
+.burger.open span:nth-child(1){transform:translateY(8.5px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:translateY(-8.5px) rotate(-45deg)}
+@media(min-width:820px){.burger{display:none}}
+#mobile-menu{display:none}
+#mobile-menu.open{
+  display:flex;position:fixed;top:66px;left:0;right:0;z-index:69;
+  background:var(--paper);flex-direction:column;padding:18px 24px 26px;gap:16px;
+  border-bottom:1px solid var(--line)
+}
+#mobile-menu a{font-size:1rem;color:var(--ink-soft)}
+
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:90px}
+.hero-inner{max-width:760px}
+.hero-eyebrow{font-size:.92rem;color:var(--ink-faint);margin-bottom:20px}
+.hero h1{font-size:clamp(2.9rem,7vw,5.4rem);line-height:1.02;margin:0 0 28px;font-weight:400}
+.hero h1 i{color:var(--moss)}
+.hero-sub{max-width:500px;font-size:1.08rem;line-height:1.68;color:var(--ink-soft);margin-bottom:38px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+
+.section{position:relative;padding:120px 0;border-top:1px solid var(--line)}
+.section.tight{padding:88px 0}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;margin-bottom:54px}
+.label{font-size:.86rem;color:var(--ink-faint);margin-bottom:18px}
+.section h2{font-size:clamp(2rem,3.6vw,2.9rem);margin:0 0 18px;font-weight:400;max-width:600px}
+.section p.lead{color:var(--ink-soft);font-size:1.02rem;line-height:1.7;max-width:470px;margin:0}
+
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:54px 50px}
+@media(max-width:700px){.features{grid-template-columns:1fr;gap:40px}}
+.feature{border-top:1px solid var(--line);padding-top:22px}
+.feature .idx{font-size:.82rem;color:var(--ink-faint);margin-bottom:14px;display:block}
+.feature h3{font-size:1.3rem;font-weight:400;margin:0 0 10px}
+.feature p{margin:0;font-size:.95rem;color:var(--ink-soft);line-height:1.65;max-width:36ch}
+
+.menu-list{border-top:1px solid var(--line)}
+.menu-row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+  padding:26px 0;border-bottom:1px solid var(--line);
+  transition:padding-left .4s var(--ease);cursor:default
+}
+.menu-row:hover{padding-left:10px}
+.menu-row .mname{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:400;flex:none}
+.menu-row .mdesc{color:var(--ink-soft);font-size:.92rem;line-height:1.5;flex:1;min-width:180px}
+.menu-row .mprice{font-size:.92rem;color:var(--ink-faint);flex:none}
+@media(max-width:640px){.menu-row{flex-wrap:wrap}.menu-row .mdesc{order:3;width:100%}}
+
+.story{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
+@media(max-width:880px){.story{grid-template-columns:1fr;gap:36px}}
+.story-img{aspect-ratio:4/5;overflow:hidden;background:var(--paper-2)}
+.story-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.02)}
+.story-text p{color:var(--ink-soft);line-height:1.8;font-size:1.02rem;margin:0 0 18px}
+.story-text p:last-of-type{margin-bottom:0}
+.signature{margin-top:26px;font-family:'Fraunces',serif;font-style:italic;color:var(--moss-deep);font-size:1.15rem}
+
+.visit{display:grid;grid-template-columns:.85fr 1.15fr;gap:70px}
+@media(max-width:880px){.visit{grid-template-columns:1fr;gap:44px}}
+.hours-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:.96rem}
+.hours-row span:first-child{color:var(--ink-soft)}
+.hours-row span:last-child{color:var(--ink)}
+.visit-note{margin-top:26px;font-size:.92rem;color:var(--ink-faint);line-height:1.7;max-width:34ch}
+form.contact{display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:.8rem;color:var(--ink-faint)}
+.field input,.field textarea{
+  background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--ink);
+  font-family:'Inter',sans-serif;font-size:1rem;padding:10px 2px;resize:none;transition:border-color .3s
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-faint)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--moss)}
+form.contact .btn{align-self:flex-start;margin-top:6px}
+
+footer{border-top:1px solid var(--line);padding:56px 0 34px}
+.foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:44px}
+.foot-brand p{max-width:300px;color:var(--ink-soft);font-size:.92rem;line-height:1.6;margin-top:14px}
+.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+.foot-col h4{font-size:.82rem;color:var(--ink-faint);margin:0 0 14px;font-weight:500}
+.foot-col a{display:block;color:var(--ink-soft);font-size:.92rem;margin-bottom:9px;transition:color .3s}
+.foot-col a:hover{color:var(--ink)}
+.disclaimer{
+  margin-top:40px;padding-top:26px;border-top:1px solid var(--line);
+  font-size:.82rem;color:var(--ink-faint);line-height:1.7;max-width:640px
+}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:26px;font-size:.8rem;color:var(--ink-faint)}
+::selection{background:var(--moss);color:var(--white)}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <a href="#top" class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Northbound</span>
+  </a>
+  <nav class="links">
+    <a href="#menu">Menu</a>
+    <a href="#story">About</a>
+    <a href="#visit">Visit</a>
+  </nav>
+  <a href="#visit" class="btn nav-cta">Find us</a>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</header>
+
+<div id="mobile-menu">
+  <a href="#menu">Menu</a>
+  <a href="#story">About</a>
+  <a href="#visit">Visit</a>
+</div>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow" data-reveal>Specialty coffee · Fresh pastries · Good company</div>
+    <h1 data-reveal>A better reason to <i>slow down.</i></h1>
+    <p class="hero-sub" data-reveal>Small-batch coffee, fresh pastries, and a comfortable place to spend a little more time. Come in for your morning cup or stay for a while.</p>
+    <div class="hero-actions" data-reveal>
+      <a href="#menu" class="btn">View the menu</a>
+      <a href="#visit" class="btn ghost">Plan your visit</a>
+    </div>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="wrap">
+    <div class="label" data-reveal>What to expect</div>
+    <div class="features" data-stagger>
+      <div class="feature" data-reveal style="--i:0">
+        <span class="idx">01</span>
+        <h3>Freshly roasted</h3>
+        <p>We roast in small batches throughout the week, keeping each coffee fresh and full of flavour.</p>
+      </div>
+      <div class="feature" data-reveal style="--i:1">
+        <span class="idx">02</span>
+        <h3>Made to order</h3>
+        <p>Every espresso drink is prepared when you order it, with the same care whether you're staying or heading out.</p>
+      </div>
+      <div class="feature" data-reveal style="--i:2">
+        <span class="idx">03</span>
+        <h3>Easy to settle in</h3>
+        <p>Grab a table, bring your laptop, meet a friend, or simply enjoy your coffee without feeling rushed.</p>
+      </div>
+      <div class="feature" data-reveal style="--i:3">
+        <span class="idx">04</span>
+        <h3>Something to eat</h3>
+        <p>Our pastries and small bites are prepared fresh for the day and pair nicely with your coffee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="menu">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <div class="label" data-reveal>Today's favourites</div>
+        <h2 data-reveal>A menu worth coming back to.</h2>
+        <p class="lead" data-reveal>Classic coffee, a few house favourites, and fresh food for mornings, afternoons, and everything in between.</p>
+      </div>
+    </div>
+
+    <div class="menu-list" data-stagger>
+      <div class="menu-row" data-reveal style="--i:0">
+        <span class="mname">Harbour Latte</span>
+        <span class="mdesc">Double espresso with silky steamed milk.</span>
+        <span class="mprice">$32</span>
+      </div>
+      <div class="menu-row" data-reveal style="--i:1">
+        <span class="mname">Strait Cortado</span>
+        <span class="mdesc">A balanced espresso and warm milk, served in a small cup.</span>
+        <span class="mprice">$28</span>
+      </div>
+      <div class="menu-row" data-reveal style="--i:2">
+        <span class="mname">Slow Cold Brew</span>
+        <span class="mdesc">Cold-steeped for eighteen hours and served over ice.</span>
+        <span class="mprice">$30</span>
+      </div>
+      <div class="menu-row" data-reveal style="--i:3">
+        <span class="mname">Butter Croissant</span>
+        <span class="mdesc">Light, flaky and baked fresh each morning.</span>
+        <span class="mprice">$14</span>
+      </div>
+      <div class="menu-row" data-reveal style="--i:4">
+        <span class="mname">Ceremonial Matcha</span>
+        <span class="mdesc">Smooth matcha whisked to order with your choice of milk.</span>
+        <span class="mprice">$34</span>
+      </div>
+      <div class="menu-row" data-reveal style="--i:5">
+        <span class="mname">Flatbread & Honey</span>
+        <span class="mdesc">Warm griddled flatbread finished with honey.</span>
+        <span class="mprice">$18</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="story">
+      <div class="story-img" data-reveal>
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=900&q=80" onerror="this.src='https://picsum.photos/seed/nb-story/900/1100'" alt="Barista preparing coffee">
+      </div>
+      <div class="story-text" data-reveal>
+        <div class="label">A little about us</div>
+        <h2>Good coffee doesn't need to be complicated.</h2>
+        <p>Northbound is a neighbourhood coffee shop built around a simple idea: serve coffee we genuinely enjoy and make the space feel just as good as the cup.</p>
+        <p>We work with carefully selected beans, roast in small batches, and keep the menu focused on things we know we'll be proud to serve. Whether you're here for five minutes or the whole afternoon, you're welcome.</p>
+        <div class="signature">Come as you are.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="visit">
+  <div class="wrap">
+    <div class="label" data-reveal>Plan your visit</div>
+    <h2 data-reveal style="margin-bottom:50px;">Come by for a coffee.</h2>
+    <div class="visit">
+      <div data-reveal>
+        <div class="hours-row"><span>Monday — Friday</span><span>06:00 – 21:00</span></div>
+        <div class="hours-row"><span>Saturday</span><span>07:00 – 22:00</span></div>
+        <div class="hours-row"><span>Sunday</span><span>07:00 – 20:00</span></div>
+        <p class="visit-note">Questions about the menu, groups, or booking a table? Send us a message and we'll get back to you.</p>
+      </div>
+
+      <div data-reveal>
+        <form class="contact" onsubmit="sendMessage(event)">
+          <div class="field"><label for="name">Name</label><input id="name" type="text" placeholder="Your name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" required></div>
+          <div class="field"><label for="msg">Message</label><textarea id="msg" rows="3" placeholder="How can we help?" required></textarea></div>
+          <button type="submit" class="btn">Send message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">Northbound</span>
+        </div>
+        <p>Specialty coffee, fresh food, and a place that feels good to stay awhile.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Explore</h4>
+          <a href="#top">Home</a>
+          <a href="#menu">Menu</a>
+          <a href="#story">About</a>
+        </div>
+        <div class="foot-col">
+          <h4>Contact</h4>
+          <a href="#visit">Send a message</a>
+          <a href="mailto:hello@northbound.coffee">hello@northbound.coffee</a>
+        </div>
+        <div class="foot-col">
+          <h4>Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      Northbound is a fictional coffee shop created as a design example. It is not a real business and does not currently sell products or services.
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Northbound — example site</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const header=document.getElementById('site-header');
+function onScroll(){header.classList.toggle('scrolled',window.scrollY>30)}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+  });
+},{threshold:.15,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+const burger=document.getElementById('burger');
+const mobileMenu=document.getElementById('mobile-menu');
+burger.addEventListener('click',()=>{ const isOpen=mobileMenu.classList.toggle('open'); burger.classList.toggle('open',isOpen); });
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ mobileMenu.classList.remove('open'); burger.classList.remove('open'); }));
+
+function sendMessage(event){
+  event.preventDefault();
+  alert("There is no real email for this cafe it is just an example");
+}
+</script>
+</body>
+</html>
